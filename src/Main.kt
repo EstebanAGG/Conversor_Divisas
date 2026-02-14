@@ -77,7 +77,7 @@ fun limpiarPantalla() {
 }
 
 fun leerDivisa(textoEntrada: String): Int {
-    var divisa: Int = -1
+    var divisa: Int
     do {
         limpiarPantalla()
         Divisas.entries.mapIndexed { index, divisa -> println("$index -- $divisa") }
