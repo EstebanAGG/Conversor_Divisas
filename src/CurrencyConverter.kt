@@ -2,28 +2,15 @@
  * Funciones específicas del proceso de conversión
  */
 
-fun convertirMonto(monto: Double, monedaOrigen: Divisas, monedaDestino: Divisas): Double {
+fun convertirMonto(tablaDeTasas: TablaTasas, monto: Double, monedaOrigen: Divisas, monedaDestino: Divisas): Double {
     when (monedaOrigen) {
-        Divisas.Euros -> return convertirEuros(monto, monedaDestino)
-        Divisas.Dolares -> return convertirDolares(monto, monedaDestino)
-        Divisas.Libras -> return convertirLibras(monto, monedaDestino)
-        Divisas.Yenes -> return convertirYenes(monto, monedaDestino)
-        else -> return -1.0
+        Divisas.Euros -> return convertir(tablaDeTasas.tasasDeCambioEUR, monto, monedaDestino)
+        Divisas.Dolares -> return convertir(tablaDeTasas.tasasDeCambioUSD, monto, monedaDestino)
+        Divisas.Libras -> return convertir(tablaDeTasas.tasasDeCambioGBP,monto, monedaDestino)
+        else -> return convertir(tablaDeTasas.tasasDeCambioJPY,monto, monedaDestino)
     }
 }
 
-fun convertirEuros(monto: Double, monedaDestino: Divisas): Double {
-    return monto * tasasDeCambioEUR[monedaDestino.ordinal]
-}
-
-fun convertirDolares(monto: Double, monedaOrigen: Divisas): Double {
-    return monto * tasasDeCambioUSD[monedaOrigen.ordinal]
-}
-
-fun convertirLibras(monto: Double, monedaDestino: Divisas): Double {
-    return monto * tasasDeCambioGBP[monedaDestino.ordinal]
-}
-
-fun convertirYenes(monto: Double, monedaDestino: Divisas): Double {
-    return monto * tasasDeCambioJPY[monedaDestino.ordinal]
+fun convertir(listaTasas: List<Double>, monto: Double, monedaDestino: Divisas): Double {
+    return monto * listaTasas[monedaDestino.ordinal]
 }
