@@ -1,3 +1,10 @@
+import entradaSalida.esperarIntro
+import entradaSalida.imprimeResultado
+import entradaSalida.leerDivisa
+import entradaSalida.leerValor
+import entradaSalida.limpiarPantalla
+import entradaSalida.menu
+
 /**
  * Punto de entrada de la aplicación
  */
@@ -12,21 +19,10 @@ fun main() {
     var tablaDeTasasAplicable = tablaDeTasas
 
     do {
-        limpiarPantalla()
-        println("CONVERSOR DE DIVISAS")
-        println("--------------------")
-        println("1.- Conversión de divisas")
-        println("2.- Cambio de tasas")
-        println("3.- Salir")
-        print("Selecciona una opción: ")
-
-        opcion = readLine()?.toIntOrNull() ?: 0
-
+        opcion = menu()
         when (opcion) {
             1 -> {
-                limpiarPantalla()
-                print("Introduce el monto: ")
-                val monto = readLine()?.toDoubleOrNull() ?: -1.0
+                val monto = leerValor("Introduce el monto: ")
                 if (monto > -1) {
                     val divisaOrigen = leerDivisa("Selecciona divisa origen: ")
                     val divisaDestino = leerDivisa("Selecciona divisa destino: ")
@@ -34,14 +30,12 @@ fun main() {
                         tablaDeTasasAplicable, monto, Divisas.entries[divisaOrigen],
                         Divisas.entries[divisaDestino]
                     )
-                    println("$monto ${Divisas.entries[divisaOrigen]} = %.2f ${Divisas.entries[divisaDestino]}"
-                        .format(conversion))
+                    imprimeResultado(monto, divisaOrigen, conversion, divisaDestino)
                 }
             }
             2 -> {
                 limpiarPantalla()
-                print("Introduce la nueva tasa: ")
-                val nuevaTasa = readLine()?.toDoubleOrNull() ?: -1.0
+                val nuevaTasa = leerValor("Introduce la nueva tasa: ")
                 if (nuevaTasa > -1) {
                     val tablaDivisas = leerDivisa("Selecciona la tabla de divisas a modificar: ")
                     val divisaModificada = leerDivisa("Selecciona la divisa a modificar la tasa: ")
@@ -50,40 +44,17 @@ fun main() {
                         Divisas.entries.get(tablaDivisas),
                         Divisas.entries.get(divisaModificada))
                 }else{
-                    println("Tasa incorrecta! - Pulsa INTRO para continuar")
-                    readLine()
+                    esperarIntro("Tasa incorrecta! - Pulsa INTRO para continuar.")
                 }
             }
 
             3 -> {
-                println("Saliendo del programa")
+                esperarIntro("Saliendo del programa - Pulse INTRO para terminar.")
             }
 
             else -> {
-                println("¡Opción incorrecta!. Pulse INTRO para continuar")
-                readLine()
+                esperarIntro("¡Opción incorrecta! - Pulse INTRO para continuar.")
             }
         }
     } while (opcion != 3)
-}
-
-fun limpiarPantalla() {
-    val os = System.getProperty("os.name").lowercase()
-
-    if (os.contains("win")) {
-        ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor()
-    } else {
-        ProcessBuilder("clear").inheritIO().start().waitFor()
-    }
-}
-
-fun leerDivisa(textoEntrada: String): Int {
-    var divisa: Int
-    do {
-        limpiarPantalla()
-        Divisas.entries.mapIndexed { index, divisa -> println("$index -- $divisa") }
-        print(textoEntrada)
-        divisa = readLine()?.toIntOrNull() ?: -1
-    } while (divisa !in Divisas.entries.indices)
-    return divisa
 }

@@ -12,7 +12,8 @@ data class TablaTasas(
     val tasasDeCambioJPY: List<Double> = listOf(0.654022, 0.55118, 0.480227, 1.0)
 )
 
-fun actualizarTasas(tasasDeCambio: TablaTasas, nuevaTasa: Double, tablaActualizar: Divisas, divisaActualizarTasa: Divisas): TablaTasas {
+fun actualizarTasas(tasasDeCambio: TablaTasas, nuevaTasa: Double,
+                    tablaActualizar: Divisas, divisaActualizarTasa: Divisas): TablaTasas {
     when (tablaActualizar) {
         Divisas.Dolares -> return tasasDeCambio.copy(
             tasasDeCambioUSD= actualizarListaTasas(tasasDeCambio.tasasDeCambioUSD,
