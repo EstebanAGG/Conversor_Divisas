@@ -40,6 +40,7 @@ fun main() {
             }
             2 -> {
                 limpiarPantalla()
+                print("Introduce la nueva tasa: ")
                 val nuevaTasa = readLine()?.toDoubleOrNull() ?: -1.0
                 if (nuevaTasa > -1) {
                     val tablaDivisas = leerDivisa("Selecciona la tabla de divisas a modificar: ")

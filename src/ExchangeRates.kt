@@ -15,29 +15,32 @@ data class TablaTasas(
 fun actualizarTasas(tasasDeCambio: TablaTasas, nuevaTasa: Double, tablaActualizar: Divisas, divisaActualizarTasa: Divisas): TablaTasas {
     when (tablaActualizar) {
         Divisas.Dolares -> return tasasDeCambio.copy(
-            tasasDeCambioUSD= tasasDeCambio.tasasDeCambioUSD.mapIndexed { index, tasa ->
-                if (index == divisaActualizarTasa.ordinal) nuevaTasa
-                else tasa
-            }
+            tasasDeCambioUSD= actualizarListaTasas(tasasDeCambio.tasasDeCambioUSD,
+                divisaActualizarTasa.ordinal,
+                nuevaTasa)
         )
         Divisas.Euros -> return tasasDeCambio.copy(
-            tasasDeCambioEUR = tasasDeCambio.tasasDeCambioEUR.mapIndexed { index, tasa ->
-                if (index == divisaActualizarTasa.ordinal) nuevaTasa
-                else tasa
-            }
+            tasasDeCambioEUR = actualizarListaTasas(tasasDeCambio.tasasDeCambioEUR,
+                divisaActualizarTasa.ordinal,
+                nuevaTasa)
         )
         Divisas.Libras -> return tasasDeCambio.copy(
-            tasasDeCambioGBP = tasasDeCambio.tasasDeCambioGBP.mapIndexed { index, tasa ->
-                if (index == divisaActualizarTasa.ordinal) nuevaTasa
-                else tasa
-            }
+            tasasDeCambioGBP = actualizarListaTasas(tasasDeCambio.tasasDeCambioGBP,
+                divisaActualizarTasa.ordinal,
+                nuevaTasa)
         )
         else -> return tasasDeCambio.copy(
-            tasasDeCambioJPY = tasasDeCambio.tasasDeCambioJPY.mapIndexed { index, tasa ->
-                if (index == divisaActualizarTasa.ordinal) nuevaTasa
-                else tasa
-            }
+            tasasDeCambioJPY = actualizarListaTasas(tasasDeCambio.tasasDeCambioJPY,
+                divisaActualizarTasa.ordinal,
+                nuevaTasa,)
         )
+    }
+}
+
+private fun actualizarListaTasas(listaAModificar: List<Double>, indice: Int, nuevaTasa: Double): List<Double>{
+    return listaAModificar.mapIndexed { index, tasa ->
+        if (index == indice) nuevaTasa
+        else tasa
     }
 }
 
